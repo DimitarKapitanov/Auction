@@ -25,7 +25,7 @@ namespace SearchService.Data
 
             var items = await httpClient.GetItemForSearchDb();
 
-            Console.WriteLine(items.Count + "returned from AuctionService");
+            Console.WriteLine(items.Count + " returned from AuctionService");
 
             if (items.Count > 0) await DB.SaveAsync(items);
         }
