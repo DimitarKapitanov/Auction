@@ -1,8 +1,8 @@
 
 type Props = {
     title: string
-    subTitle: string
-    center: boolean
+    subTitle?: string
+    center?: boolean
 }
 
 export default function Heading({ title, center, subTitle }: Props) {

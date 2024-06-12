@@ -1,4 +1,4 @@
-import { create } from "zustand";
+import { createWithEqualityFn } from "zustand/traditional";
 
 type State = {
     pageNumber: number;
@@ -26,7 +26,7 @@ const initialState: State = {
     filterBy: 'live'
 }
 
-export const useParamsStore = create<State & Action>()((set) => ({
+export const useParamsStore = createWithEqualityFn<State & Action>()((set) => ({
     ...initialState,
     setParams: (newParams: Partial<State>) => {
         set((state) => {

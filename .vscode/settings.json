@@ -2,5 +2,7 @@
     "cSpell.words": [
         "flowbite",
         "tailwindcss"
-    ]
+    ],
+    "search.useGlobalIgnoreFiles": true,
+    "search.useParentIgnoreFiles": true
 }

@@ -28,11 +28,12 @@ export default function Filters() {
         <div className="flex justify-between items-center mb-4">
             <div>
                 <span className="uppercase text-sm text-gray-500 mr-2">Filter by</span>
-                <Button.Group>
+                <Button.Group >
                     {filterButtons.map(({ label, icon: Icon, value }) => (
                         <Button key={value}
                             onClick={() => setParams({ filterBy: value })}
                             color={`${filterBy === value ? 'red' : 'gray'}`}
+                            className="flex justify-start items-center"
                         >
                             <Icon className="mr-3 h-4 w-4" />
                             {label}

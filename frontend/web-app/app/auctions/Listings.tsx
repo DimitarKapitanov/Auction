@@ -3,7 +3,7 @@
 import qs from 'query-string';
 import { useEffect, useState } from "react";
 import { shallow } from 'zustand/shallow';
-import { getData } from "../actions/Actions";
+import { getData } from '../actions/auctionActions';
 import AppPagination from "../components/AppPagination";
 import EmptyFilter from '../components/EmptyFilter';
 import { useParamsStore } from "../hooks/useParamStore";
