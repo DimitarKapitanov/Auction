@@ -13,6 +13,7 @@ import Filters from "./Filters";
 
 export default function Listings() {
     const [data, setData] = useState<PageResult<Auction>>();
+
     const params = useParamsStore(state => ({
         pageNumber: state.pageNumber,
         pageSize: state.pageSize,
@@ -20,6 +21,7 @@ export default function Listings() {
         orderBy: state.orderBy,
         filterBy: state.filterBy
     }), shallow);
+
     const setParams = useParamsStore(state => state.setParams);
     const url = qs.stringifyUrl({ url: '', query: params });
 
@@ -28,6 +30,8 @@ export default function Listings() {
     }
 
     useEffect(() => {
+        console.log('fetching data');
+
         getData(url).then(data => {
             setData(data);
         })

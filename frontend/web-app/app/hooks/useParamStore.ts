@@ -1,5 +1,6 @@
 import { createWithEqualityFn } from "zustand/traditional";
 
+
 type State = {
     pageNumber: number;
     pageSize: number;
@@ -33,7 +34,7 @@ export const useParamsStore = createWithEqualityFn<State & Action>()((set) => ({
             if (newParams.pageNumber) {
                 return {
                     ...state,
-                    pageNumber: newParams.pageNumber,
+                    pageNumber: newParams.pageNumber
                 }
             } else {
                 return {
