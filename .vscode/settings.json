@@ -1,7 +1,9 @@
 {
     "cSpell.words": [
         "flowbite",
-        "tailwindcss"
+        "Requesthelpers",
+        "tailwindcss",
+        "Toasterprovider"
     ],
     "search.useGlobalIgnoreFiles": true,
     "search.useParentIgnoreFiles": true

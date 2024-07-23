@@ -1,10 +1,13 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-    experimental: {
-        serverActions: true
-    },
     images: {
-        domains: ['cdn.pixabay.com'],
+        remotePatterns: [
+            {
+                protocol: 'https',
+                hostname: 'cdn.pixabay.com',
+                pathname: '/**',
+            },
+        ],
     },
     output: 'standalone'
 }

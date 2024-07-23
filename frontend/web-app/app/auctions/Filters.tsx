@@ -22,13 +22,13 @@ export default function Filters() {
     const pageSize = useParamsStore(state => state.pageSize)
     const setParams = useParamsStore(state => state.setParams)
     const orderBy = useParamsStore(state => state.orderBy)
-    const filterBy = useParamsStore(state => state.orderBy)
+    const filterBy = useParamsStore(state => state.filterBy)
 
     return (
         <div className="flex justify-between items-center mb-4">
             <div>
                 <span className="uppercase text-sm text-gray-500 mr-2">Filter by</span>
-                <Button.Group >
+                <div className="button-group">
                     {filterButtons.map(({ label, icon: Icon, value }) => (
                         <Button key={value}
                             onClick={() => setParams({ filterBy: value })}
@@ -39,11 +39,11 @@ export default function Filters() {
                             {label}
                         </Button>
                     ))}
-                </Button.Group>
+                </div>
             </div>
             <div>
                 <span className="uppercase text-sm text-gray-500 mr-2">Order by</span>
-                <Button.Group>
+                <div className="button-group">
                     {orderButtons.map(({ label, icon: Icon, value }) => (
                         <Button key={value}
                             onClick={() => setParams({ orderBy: value })}
@@ -53,11 +53,11 @@ export default function Filters() {
                             {label}
                         </Button>
                     ))}
-                </Button.Group>
+                </div>
             </div>
             <div>
                 <span className="uppercase text-sm text-gray-500 mr-2">Page size</span>
-                <Button.Group>
+                <div className="button-group">
                     {pageSizeButtons.map((value, i) => (
                         <Button key={i}
                             onClick={() => setParams({ pageSize: value })}
@@ -66,7 +66,7 @@ export default function Filters() {
                         >{value}
                         </Button>
                     ))}
-                </Button.Group>
+                </div>
             </div>
         </div>
     )
