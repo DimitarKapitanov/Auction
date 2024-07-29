@@ -36,3 +36,15 @@
     border-right-width: 0;
     /* Remove right border for all but last button */
 }
+
+@layer components {
+    .input-custom {
+        @apply flex-grow pl-5 bg-transparent border-transparent;
+    }
+
+    .input-custom:focus {
+        outline: none;
+        border-color: transparent;
+        box-shadow: none;
+    }
+}

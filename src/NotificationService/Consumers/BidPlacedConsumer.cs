@@ -8,6 +8,7 @@ namespace NotificationService;
 public class BidPlacedConsumer : IConsumer<BidPlaced>
 {
     private readonly IHubContext<NotificationHub> _hubContext;
+
     public BidPlacedConsumer(IHubContext<NotificationHub> hubContext)
     {
         _hubContext = hubContext;
@@ -15,7 +16,7 @@ public class BidPlacedConsumer : IConsumer<BidPlaced>
 
     public async Task Consume(ConsumeContext<BidPlaced> context)
     {
-        Console.WriteLine("--> auction created massage received");
+        Console.WriteLine("--> bid placed message received");
 
         await _hubContext.Clients.All.SendAsync("BidPlaced", context.Message);
     }
