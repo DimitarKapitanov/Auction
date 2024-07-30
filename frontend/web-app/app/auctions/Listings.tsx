@@ -45,7 +45,6 @@ export default function Listings() {
         })
     }, [url, setData]);
 
-    console.log('Listings.tsx', data);
     if (loading) return <h3>Loading...</h3>
     return (
         <>
