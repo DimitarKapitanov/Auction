@@ -48,7 +48,7 @@ async function getHeaders() {
     const headers = { 'Content-Type': 'application/json' } as any;
 
     if (token) {
-        headers.Authorization = `Bearer ${token.access_token}`;
+        headers.Authorization = 'Bearer ' + token.access_token;
     }
     return headers;
 }
@@ -69,7 +69,7 @@ async function handleResponse(response: Response) {
     } else {
         const error = {
             status: response.status,
-            message: typeof data === 'string' ? data : response.statusText
+            message: typeof data === 'string' && data.length > 0 ? data : response.statusText
         };
 
         return { error };
