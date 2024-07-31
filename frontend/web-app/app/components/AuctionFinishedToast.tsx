@@ -1,6 +1,6 @@
+import { numberWithCommas } from '@/lib/numberWithComma'
 import Image from 'next/image'
 import Link from 'next/link'
-import { numberWithCommas } from '../lib/numberWithComma'
 import { Auction, AuctionFinished } from '../types'
 
 type Props = {
