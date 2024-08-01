@@ -1,31 +1,32 @@
-import { createWithEqualityFn } from "zustand/traditional";
-import { Auction, PageResult } from "../types";
+import { Auction, PageResult } from "@/app/types"
+import { createWithEqualityFn } from "zustand/traditional"
 
 type State = {
-    auctions: Auction[];
-    totalCount: number;
-    pageCount: number;
+    auctions: Auction[]
+    totalCount: number
+    pageCount: number
 }
 
 type Actions = {
-    setData: (data: PageResult<Auction>) => void;
-    setCurrentPrice: (auctionId: string, amount: number) => void;
+    setData: (data: PageResult<Auction>) => void
+    setCurrentPrice: (auctionId: string, amount: number) => void
 }
 
 const initialState: State = {
     auctions: [],
-    totalCount: 0,
-    pageCount: 0
+    pageCount: 0,
+    totalCount: 0
 }
 
 export const useAuctionStore = createWithEqualityFn<State & Actions>((set) => ({
     ...initialState,
+
     setData: (data: PageResult<Auction>) => {
         set(() => ({
             auctions: data.results,
             totalCount: data.totalCount,
             pageCount: data.pageCount
-        }));
+        }))
     },
 
     setCurrentPrice: (auctionId: string, amount: number) => {
@@ -34,4 +35,4 @@ export const useAuctionStore = createWithEqualityFn<State & Actions>((set) => ({
                 ? { ...auction, currentHighBid: amount } : auction)
         }))
     }
-}));
+}))

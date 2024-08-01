@@ -40,7 +40,7 @@ export default function AuctionForm({ auction }: Props) {
                 id = res.id;
             } else {
                 if (auction) {
-                    res = await updateAuction(auction.id, data);
+                    res = await updateAuction(data, auction.id);
                     id = auction.id;
                 }
             }

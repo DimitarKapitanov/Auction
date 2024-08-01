@@ -1,3 +1,9 @@
+networks:
+  custom:
+    ipam:
+      config:
+        - subnet: 10.5.0.0/16
+
 services:
   postgres:
     image: postgres
@@ -7,6 +13,8 @@ services:
       - 5432:5432
     volumes:
       - /var/lib/postresql/data
+    networks:
+      custom:
   mongodb:
     image: mongo
     environment:
@@ -16,13 +24,17 @@ services:
       - 27017:27017
     volumes:
       - /var/lib/mongodb/data
+    networks:
+      custom:
   rabbitmq:
     image: rabbitmq:3-management-alpine
     ports:
       - 5672:5672
       - 15672:15672
+    networks:
+      custom:
   auction-svc:
-    image: dimitarkapitanov/auction-svc:latest
+    image: dimitarkapitanov/auction-svc
     build:
       context: .
       dockerfile: src/AuctionService/Dockerfile
@@ -43,8 +55,10 @@ services:
     depends_on:
       - postgres
       - rabbitmq
+    networks:
+      custom:
   search-svc:
-    image: dimitarkapitanov/search-svc:latest
+    image: dimitarkapitanov/search-svc
     build:
       context: .
       dockerfile: src/SearchService/Dockerfile
@@ -59,8 +73,10 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      custom:
   identity-svc:
-    image: dimitarkapitanov/identity-svc:latest
+    image: dimitarkapitanov/identity-svc
     build:
       context: .
       dockerfile: src/IdentityService/Dockerfile
@@ -69,11 +85,14 @@ services:
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=identity
     ports:
-      - 5000:80
+      - 80:80
     depends_on:
       - postgres
+    networks:
+      custom:
+        ipv4_address: 10.5.0.200
   gateway-svc:
-    image: dimitarkapitanov/gateway-svc:latest
+    image: dimitarkapitanov/gateway-svc
     build:
       context: .
       dockerfile: src/GatewayService/Dockerfile
@@ -82,8 +101,10 @@ services:
       - ASPNETCORE_URLS=http://+:80
     ports:
       - 6001:80
+    networks:
+      custom:
   bid-svc:
-    image: dimitarkapitanov/bid-svc:latest
+    image: dimitarkapitanov/bid-svc
     build:
       context: .
       dockerfile: src/BiddingService/Dockerfile
@@ -99,8 +120,10 @@ services:
     depends_on:
       - mongodb
       - rabbitmq
+    networks:
+      custom:
   notify-svc:
-    image: dimitarkapitanov/notify-svc:latest
+    image: dimitarkapitanov/notify-svc
     build:
       context: .
       dockerfile: src/NotificationService/Dockerfile
@@ -112,8 +135,10 @@ services:
       - 7004:80
     depends_on:
       - rabbitmq
+    networks:
+      custom:
   web-app:
-    image: dimitarkapitanov/web-app:latest
+    image: dimitarkapitanov/web-app
     build:
       context: .
       dockerfile: frontend/web-app/Dockerfile
@@ -121,9 +146,14 @@ services:
       - /var/lib/web/data
     ports:
       - 3000:3000
+    extra_hosts:
+      - id.stamat.com:10.5.0.200
     environment:
       - NEXTAUTH_SECRET=Lh0RBH4kBBZ8qzGs5yVcRr7I9FarGxn0a4d9LHXMEM12JnSUBK
-      - NEXTAUTH_URL=http://web-app
-      - API_URL=http://gateway-svc
-      - ID_URL=http://identity-svc
+      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_URL_INTERNAL=http://web-app:3000
+      - API_URL=http://gateway-svc/
+      - ID_URL=http://id.stamat.com
       - NEXT_PUBLIC_NOTIFY_URL=http://gateway-svc/notifications
+    networks:
+      custom:

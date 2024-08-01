@@ -1,7 +1,7 @@
 import { NextApiRequest } from "next";
 import { getServerSession } from "next-auth";
 import { getToken } from "next-auth/jwt";
-import { cookies, headers } from "next/headers";
+import { cookies, headers } from 'next/headers';
 import { authOptions } from "../api/auth/[...nextauth]/nextauthoptions";
 
 export async function getSession() {
@@ -12,15 +12,13 @@ export async function getCurrentUser() {
     try {
         const session = await getSession();
 
-        if (!session) {
-            return null;
-        }
+        if (!session) return null;
 
-        return session.user;
+        return session.user
+
     } catch (error) {
         return null;
     }
-
 }
 
 export async function getTokenWorkaround() {
@@ -29,9 +27,9 @@ export async function getTokenWorkaround() {
         cookies: Object.fromEntries(
             cookies()
                 .getAll()
-                .map((c) => [c.name, c.value])
+                .map(c => [c.name, c.value])
         )
     } as NextApiRequest;
 
-    return await getToken({ req })
+    return await getToken({ req });
 }

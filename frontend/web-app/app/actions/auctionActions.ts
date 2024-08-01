@@ -6,13 +6,12 @@ import { FieldValues } from "react-hook-form";
 import { Auction, Bid, PageResult } from "../types";
 
 export async function getData(query: string): Promise<PageResult<Auction>> {
-
-    return fetchWrapper.get(`search${query}`);
+    return await fetchWrapper.get(`search/${query}`)
 }
 
 export async function updateAuctionTest() {
     const data = {
-        milage: Math.floor(Math.random() * 100000) + 1,
+        mileage: Math.floor(Math.random() * 100000) + 1
     }
 
     return await fetchWrapper.put('auctions/afbee524-5972-4075-8800-7d1f9d7b0a0c', data);
@@ -26,9 +25,9 @@ export async function getDetailedViewData(id: string): Promise<Auction> {
     return await fetchWrapper.get(`auctions/${id}`);
 }
 
-export async function updateAuction(id: string, data: FieldValues) {
+export async function updateAuction(data: FieldValues, id: string) {
     const res = await fetchWrapper.put(`auctions/${id}`, data);
-    revalidatePath(`/auctions/details/${id}`);
+    revalidatePath(`/auctions/${id}`);
     return res;
 }
 
@@ -41,5 +40,5 @@ export async function getBidsForAuction(id: string): Promise<Bid[]> {
 }
 
 export async function placeBidForAuction(auctionId: string, amount: number) {
-    return await fetchWrapper.post(`bids?auctionId=${auctionId}&amount=${amount}`, {});
+    return await fetchWrapper.post(`bids?auctionId=${auctionId}&amount=${amount}`, {})
 }

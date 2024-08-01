@@ -1,15 +1,15 @@
 'use client'
 
 import qs from 'query-string';
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import { shallow } from 'zustand/shallow';
 import { getData } from '../actions/auctionActions';
-import AppPagination from "../components/AppPagination";
+import AppPagination from '../components/AppPagination';
 import EmptyFilter from '../components/EmptyFilter';
 import { useAuctionStore } from '../hooks/useAuctionStore';
-import { useParamsStore } from "../hooks/useParamStore";
-import AuctionCard from "./AuctionCard";
-import Filters from "./Filters";
+import { useParamsStore } from '../hooks/useParamStore';
+import AuctionCard from './AuctionCard';
+import Filters from './Filters';
 
 export default function Listings() {
     const [loading, setLoading] = useState(true);
@@ -21,21 +21,19 @@ export default function Listings() {
         filterBy: state.filterBy,
         seller: state.seller,
         winner: state.winner
-    }), shallow);
-
+    }), shallow)
     const data = useAuctionStore(state => ({
         auctions: state.auctions,
         totalCount: state.totalCount,
         pageCount: state.pageCount
     }), shallow);
-
     const setData = useAuctionStore(state => state.setData);
 
     const setParams = useParamsStore(state => state.setParams);
-    const url = qs.stringifyUrl({ url: '', query: params });
+    const url = qs.stringifyUrl({ url: '', query: params })
 
     function setPageNumber(pageNumber: number) {
-        setParams({ pageNumber });
+        setParams({ pageNumber })
     }
 
     useEffect(() => {
@@ -43,28 +41,30 @@ export default function Listings() {
             setData(data);
             setLoading(false);
         })
-    }, [url, setData]);
+    }, [url, setData])
 
     if (loading) return <h3>Loading...</h3>
+
     return (
         <>
             <Filters />
             {data.totalCount === 0 ? (
-                <EmptyFilter showReset title="No matches for this filter" subTitle="Try changing or resetting the filter" />
+                <EmptyFilter showReset />
             ) : (
                 <>
-                    <div className="grid grid-cols-4 gap-6">
+                    <div className='grid grid-cols-4 gap-6'>
                         {data.auctions.map(auction => (
-                            <AuctionCard key={auction.id} auction={auction} />
+                            <AuctionCard auction={auction} key={auction.id} />
                         ))}
                     </div>
-                    <div className="flex justify-center mt-4">
-                        <AppPagination currentPage={params.pageNumber} pageCount={data.pageCount} pageChanged={setPageNumber} />
+                    <div className='flex justify-center mt-4'>
+                        <AppPagination pageChanged={setPageNumber}
+                            currentPage={params.pageNumber} pageCount={data.pageCount} />
                     </div>
                 </>
             )}
 
         </>
+
     )
 }
-
