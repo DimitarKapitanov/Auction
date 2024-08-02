@@ -1,5 +1,8 @@
 import { NextAuthOptions } from "next-auth";
 import DuendeIdentityServer6 from "next-auth/providers/duende-identity-server6";
+const issuerUrl = process.env.NODE_ENV === 'production'
+    ? 'http://id.carauction.bg'
+    : process.env.ID_URL;
 
 export const authOptions: NextAuthOptions = {
     session: {
@@ -10,7 +13,7 @@ export const authOptions: NextAuthOptions = {
             id: 'id-server',
             clientId: 'nextApp',
             clientSecret: 'secret',
-            issuer: process.env.ID_URL,
+            issuer: issuerUrl,
             authorization: { params: { scope: 'openid profile auctionApp' } },
             idToken: true
         })
