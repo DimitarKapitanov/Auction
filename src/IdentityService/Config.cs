@@ -42,6 +42,5 @@ public static class Config
                 AccessTokenLifetime = 3600*24*30,
                 AlwaysIncludeUserClaimsInIdToken = true,
             }
-
         };
 }
