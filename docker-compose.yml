@@ -83,9 +83,9 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
+      - ClientApp=http://app.carauction.bg
       - ConnectionStrings__DefaultConnection=Server=postgres:5432;User Id=postgres;Password=postgrespw;Database=identity
-    ports:
-      - 80:80
+      - VIRTUAL_HOST=id.carauction.bg
     depends_on:
       - postgres
     networks:
@@ -99,8 +99,8 @@ services:
     environment:
       - ASPNETCORE_ENVIRONMENT=Docker
       - ASPNETCORE_URLS=http://+:80
-    ports:
-      - 6001:80
+      - ClientApp=https://app.carauction.bg
+      - VIRTUAL_HOST=api.carauction.bg
     networks:
       custom:
   bid-svc:
@@ -144,16 +144,26 @@ services:
       dockerfile: frontend/web-app/Dockerfile
     volumes:
       - /var/lib/web/data
-    ports:
-      - 3000:3000
     extra_hosts:
-      - id.stamat.com:10.5.0.200
+      - id.carauction.bg:10.5.0.200
     environment:
       - NEXTAUTH_SECRET=Lh0RBH4kBBZ8qzGs5yVcRr7I9FarGxn0a4d9LHXMEM12JnSUBK
-      - NEXTAUTH_URL=http://localhost:3000
+      - NEXTAUTH_URL=http://app.carauction.bg
       - NEXTAUTH_URL_INTERNAL=http://web-app:3000
       - API_URL=http://gateway-svc/
-      - ID_URL=http://id.stamat.com
+      - ID_URL=http://id.carauction.bg
       - NEXT_PUBLIC_NOTIFY_URL=http://gateway-svc/notifications
+      - VIRTUAL_HOST=app.carauction.bg
+      - VIRTUAL_PORT=3000
     networks:
       custom:
+  nginx-proxy:
+    image: nginxproxy/nginx-proxy
+    ports:
+      - 80:80
+      - 443:443
+    networks:
+      custom:
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+      - ./devcerts:/etc/nginx/certs

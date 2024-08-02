@@ -1,5 +1,4 @@
 import DatePicker, { ReactDatePickerProps } from 'react-datepicker'
-import 'react-datepicker/dist/react-datepicker.css'
 import { UseControllerProps, useController } from 'react-hook-form'
 
 type Props = {
